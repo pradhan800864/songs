@@ -1,16 +1,21 @@
 <template>
   <v-layout row>
     <v-flex md6 offset-xs3>
-      <panel title="Register">
+      <div class="white elevation-2">
+        <v-toolbar flat dense class="cyan" dark>
+          <v-toolbar-title>
+            Login
+          </v-toolbar-title>
+        </v-toolbar>
         <div class="pl-4 pr-0 pt-2 pb-2">
           <v-flex xs12 sm6 md4 offset-xs4><v-text-field name="email" v-model="email" placeholder="email" required/></v-flex>
           <br>
           <v-flex xs12 sm6 md4 offset-xs4><v-text-field type="password" name="password" v-model="password" placeholder="password"/></v-flex>
           <br>
           <div class="error" v-html="error"/>
-          <v-btn class="cyan" @click="register" dark>Register</v-btn>
+          <v-btn class="cyan" @click="login" dark>Login</v-btn>
         </div>
-      </panel>
+      </div>
     </v-flex>
   </v-layout>
 </template>
@@ -20,7 +25,7 @@ import AuthenticationService from '@/services/AuthenticationService'
 import Panel from '@/components/Panel'
 
 export default {
-  name: 'Register',
+  name: 'Login',
   data () {
     return {
       email: '',
@@ -29,7 +34,7 @@ export default {
     }
   },
   methods: {
-    async register () {
+    async login () {
       try {
         const response = await AuthenticationService.login({
           email: this.email,
@@ -41,11 +46,11 @@ export default {
         this.error = error.response.data.error
       }
     }
-
   },
-components: {
-  Panel
-}
+  components: {
+    Panel
+  }
+
 }
 </script>
 
