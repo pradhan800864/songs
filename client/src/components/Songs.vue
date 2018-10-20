@@ -21,12 +21,12 @@
           <v-btn
             dark
             class="cyan"
-            :to="{
+            @click="navigateTo ({
               name: 'song', 
               params: {
                 songId: song.id
               }
-            }">
+            })">
             View
           </v-btn>
         </v-flex>

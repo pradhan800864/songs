@@ -16,7 +16,7 @@
         <v-text-field multi-line label="Tab" v-model="song.tab" required :rules="[required]"/>
       </panel>
     <div class="danger-alert" v-if="error">{{error}}</div>
-    <v-btn class="cyan" @click="create" dark>Create Song</v-btn>
+    <v-btn class="cyan" @click="save" dark>Save Song</v-btn>
 
     </v-flex>
   </v-layout>
@@ -47,17 +47,32 @@ export default {
     Panel
   },
   methods: {
-    async create () {
-       
+    async save () {
       try {
-        await SongsService.post(this.song)
-        this.$router.push({
-            name: 'songs'
-        })
-      } catch (err) {
+      const songId = this.$store.state.route.params.songId
+
+       await SongsService.put(this.song)
+       this.$router.push({
+         name: 'song',
+         params: {
+           songId: songId
+         }
+
+       })
+      }
+      catch (err) {
         console.log(err)
       }
     }
+  },
+  async mounted () {
+    try {
+         const songId = this.$store.state.route.params.songId
+         this.song = (await SongsService.show(songId)).data
+        
+      } catch (err) {
+        console.log(err)
+      }
   }
 }
 </script>
