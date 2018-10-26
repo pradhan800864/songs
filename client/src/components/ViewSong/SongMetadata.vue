@@ -14,17 +14,29 @@
                 <v-btn
                     dark
                     class="cyan"
-                    @click="navigateTo ({
+                    :to="{
                     name: 'song-edit', 
-                    params: {
-                        songId: song.id
+                    params () {
+                        return { songId: song.id }
                     }
-                    })">
+                    }">
                     Edit Song
-                  </v-btn>
-
+                </v-btn>
+                <v-btn
+                    v-if="isUserLoggedIn && !bookmark"
+                    dark
+                    class="cyan"
+                    @click="setAsBookmark">
+                        Set As Bookmark
+                </v-btn>
+                <v-btn
+                    v-if="isUserLoggedIn && bookmark"
+                    dark
+                    class="cyan"
+                    @click="unsetAsBookmark">
+                      Unset As Bookmark
+                </v-btn>
             </v-flex>
-
             <v-flex xs6>
                 <img class="album-image" :src="song.albumImageUrl" /><br>
                 {{song.album}}
@@ -34,22 +46,68 @@
 </template>
 
 <script>
-import Panel from '@/components/Panel'
-
+import {mapState} from 'vuex'
+import BookmarksService from '@/services/BookmarksService'
 export default {
-    
     props: [
         'song'
     ],
-    methods: {
-        navigateTo (route) {
-            this.$router.push(route)
+    data () {
+    return {
+      bookmark: null
+    }
+  },
+    computed: {
+        ...mapState([
+            'isUserLoggedIn'
+        ])
+    },
+    watch: {
+        async song () {
+        if (!this.isUserLoggedIn) {
+           return
+           }
+
+        try {
+        this.bookmark = (await BookmarksService.index({
+            songId: this.$store.state.route.params.songId,
+            userId: this.$store.state.user.id
+        })).data
+        //console.log('this is checking for the index page', this.$store.state.route.params.songId)
+        //console.log('this is checking for the index page', this.$store.state.user.id)
+
+    }
+     catch (err) {
+        console.log(err)
+    }
         }
     },
-    components: {
-        Panel
+    methods: {
+       async setAsBookmark () {
+      try {
+          const songId = this.song.id
+          const userId = this.$store.state.user.id
+        this.bookmark = (await BookmarksService.post(songId, userId)).data
+        console.log('BOOKMARK ID IS : ', this.bookmark.id)
+      } catch (err) {
+        console.log(err)
+      }
+    },
+    async unsetAsBookmark() {
+        try {
+            const bookmarkId = this.bookmark.id
+            console.log('this is the bookmark id dsFdfdSDGVSD', bookmarkId)
+            await BookmarksService.delete(this.bookmark.id)
+            this.bookmark = null
+        } catch (err) {
+            console.log(err)
+        }
     }
-}
+
+
+    }
+    }
+   
 </script>
 
 <style>
@@ -68,7 +126,7 @@ export default {
   font-size: 18px;
 }
 .album-image {
-  width: 70%;
+  width: 100%;
   margin: 0 auto;
 }
 </style>

@@ -6,7 +6,7 @@
         <v-text-field label="Artist" v-model="song.artist" required :rules="[required]"/>
         <v-text-field label="Genre" v-model="song.genre" required :rules="[required]"/>
         <v-text-field label="Album" v-model="song.album" required :rules="[required]"/>
-        <v-text-field label="Album Image URL" v-model="song.AlbumImageUrl" required :rules="[required]"/>
+        <v-text-field label="Album Image URL" v-model="song.albumImageUrl" required :rules="[required]"/>
         <v-text-field label="Youtube ID" v-model="song.youtubeId" required :rules="[required]"/>
       </panel>
     </v-flex>
@@ -23,7 +23,6 @@
 </template>
 
 <script>
-import Panel from '@/components/Panel'
 import SongsService from '@/services/SongsService'
 export default {
   data () {
@@ -43,9 +42,7 @@ export default {
 
     }
   },
-  components: {
-    Panel
-  },
+ 
   methods: {
     async create () {
        

@@ -2,9 +2,9 @@
   <div id="app">
     <v-app>
       <page-header/>
-        <v-content>
+      <main>
           <v-container fluid><router-view/></v-container>
-        </v-content>
+          </main>
     </v-app>
 
   </div>

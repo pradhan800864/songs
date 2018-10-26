@@ -1,8 +1,6 @@
 <template>
-  <v-layout row>
-    <v-flex md6 offset-xs3>
       <panel title="Songs">
-        <v-btn light @click="navigateTo({name: 'songs-create'})" slot="action" class="cyan accent-2" fab small absolute right middle>
+        <v-btn light :to="{name: 'songs-create'}" slot="action" class="cyan accent-2" fab small absolute right middle>
           <v-icon>add</v-icon>
         </v-btn>
         <div v-for="song in songs" :key="song.id">
@@ -21,12 +19,12 @@
           <v-btn
             dark
             class="cyan"
-            @click="navigateTo ({
+           :to="{
               name: 'song', 
               params: {
                 songId: song.id
               }
-            })">
+            }">
             View
           </v-btn>
         </v-flex>
@@ -37,30 +35,27 @@
       </v-layout>
         </div>
       </panel>
-    </v-flex>
-  </v-layout>
 </template>
 
 <script>
 import SongsService from '@/services/SongsService'
-import Panel from '@/components/Panel'
 export default {
-  components: {
-    Panel
-  },
+
   data () {
     return {
       songs: null
     }
   },
   methods: {
-    navigateTo (route) {
-      this.$router.push(route)
-    }
+
   },
-  async mounted () {
-    this.songs = (await SongsService.index()).data
-    console.log('songs', this.songs)
+  watch: {
+    '$route.query.search': {
+      immediate: true,
+      async handler (value) {
+        this.songs = (await SongsService.index(value)).data
+      }
+    }
   }
 }
 </script>

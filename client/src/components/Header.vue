@@ -1,13 +1,15 @@
 <template>
    <v-toolbar class="cyan" fixed dark>
-    <v-toolbar-title class="mr-3" dark><span class="home" @click="navigateTo('HelloWorld')">Songs</span></v-toolbar-title>
+    <v-toolbar-title class="mr-3" dark>
+      <router-link class="home" tag="span" :to="{name: 'songs'}"> Songs </router-link>
+      </v-toolbar-title>
     <v-toolbar-items>
-      <v-btn flat dark @click="navigateTo({name: 'songs'})">BROWSE</v-btn>
+      <v-btn flat dark :to="{name: 'songs'}">BROWSE</v-btn>
     </v-toolbar-items>
     <v-spacer></v-spacer>
     <v-toolbar-items>
-      <v-btn flat dark v-if="!$store.state.isUserLoggedIn" @click="navigateTo({name: 'login'})">LOGIN</v-btn>
-      <v-btn flat dark v-if="!$store.state.isUserLoggedIn" @click="navigateTo({name: 'register'})">SIGN UP</v-btn>
+      <v-btn flat dark v-if="!$store.state.isUserLoggedIn" :to="{name: 'login'}">LOGIN</v-btn>
+      <v-btn flat dark v-if="!$store.state.isUserLoggedIn" :to="{name: 'register'}">SIGN UP</v-btn>
       <v-btn flat dark v-if="$store.state.isUserLoggedIn" @click="logout">LOG OUT</v-btn>
 
     </v-toolbar-items>
@@ -17,9 +19,7 @@
 <script>
 export default {
   methods: {
-    navigateTo (route) {
-      this.$router.push(route)
-    },
+    
     logout () {
       this.$store.dispatch('setToken', null)
       this.$store.dispatch('setUser', null)

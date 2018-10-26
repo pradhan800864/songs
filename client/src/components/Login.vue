@@ -12,7 +12,7 @@
           <br>
           <v-flex xs12 sm6 md4 offset-xs4><v-text-field type="password" name="password" v-model="password" placeholder="password"/></v-flex>
           <br>
-          <div class="error" v-html="error"/>
+          <div class="danger-alert" v-html="error"/>
           <v-btn class="cyan" @click="login" dark>Login</v-btn>
         </div>
       </div>
@@ -22,7 +22,6 @@
 
 <script>
 import AuthenticationService from '@/services/AuthenticationService'
-import Panel from '@/components/Panel'
 
 export default {
   name: 'Login',
@@ -42,14 +41,15 @@ export default {
         })
         this.$store.dispatch('setToken', response.data.token)
         this.$store.dispatch('setUser', response.data.user)
+        this.$router.push({
+          name: 'songs'
+        })
       } catch (error) {
         this.error = error.response.data.error
       }
     }
   },
-  components: {
-    Panel
-  }
+
 
 }
 </script>
