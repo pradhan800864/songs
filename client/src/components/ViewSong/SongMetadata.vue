@@ -15,7 +15,7 @@
                     dark
                     class="cyan"
                     :to="{
-                    name: 'song-edit', 
+                    name: 'song-edit',
                     params () {
                         return { songId: song.id }
                     }
@@ -42,72 +42,70 @@
                 {{song.album}}
             </v-flex>
       </v-layout>
-    </panel> 
+    </panel>
 </template>
 
 <script>
 import {mapState} from 'vuex'
 import BookmarksService from '@/services/BookmarksService'
 export default {
-    props: [
-        'song'
-    ],
-    data () {
+  props: [
+    'song'
+  ],
+  data () {
     return {
       bookmark: null
     }
   },
-    computed: {
-        ...mapState([
-            'isUserLoggedIn'
-        ])
-    },
-    watch: {
-        async song () {
-        if (!this.isUserLoggedIn) {
-           return
-           }
+  computed: {
+    ...mapState([
+      'isUserLoggedIn', 'user'
+    ])
+  },
+  watch: {
+    async song () {
+      if (!this.isUserLoggedIn) {
+        return
+      }
 
-        try {
-        this.bookmark = (await BookmarksService.index({
-            songId: this.$store.state.route.params.songId,
-            userId: this.$store.state.user.id
-        })).data
-        //console.log('this is checking for the index page', this.$store.state.route.params.songId)
-        //console.log('this is checking for the index page', this.$store.state.user.id)
-
-    }
-     catch (err) {
-        console.log(err)
-    }
-        }
-    },
-    methods: {
-       async setAsBookmark () {
       try {
-          const songId = this.song.id
-          const userId = this.$store.state.user.id
+        const bookmarks = (await BookmarksService.index({
+          songId: this.$store.state.route.params.songId,
+          userId: this.user.id
+        })).data
+        if (bookmarks.length) {
+          this.bookmark = bookmarks[0]
+        }
+      }
+      catch (err) {
+        console.log(err)
+      }
+    }
+  },
+  methods: {
+    async setAsBookmark () {
+      try {
+        const songId = this.song.id
+        const userId = this.user.id
         this.bookmark = (await BookmarksService.post(songId, userId)).data
         console.log('BOOKMARK ID IS : ', this.bookmark.id)
       } catch (err) {
         console.log(err)
       }
     },
-    async unsetAsBookmark() {
-        try {
-            const bookmarkId = this.bookmark.id
-            console.log('this is the bookmark id dsFdfdSDGVSD', bookmarkId)
-            await BookmarksService.delete(this.bookmark.id)
-            this.bookmark = null
-        } catch (err) {
-            console.log(err)
-        }
+    async unsetAsBookmark () {
+      try {
+        const bookmarkId = this.bookmark.id
+        console.log('this is the bookmark id dsFdfdSDGVSD', bookmarkId)
+        await BookmarksService.delete(this.bookmark.id)
+        this.bookmark = null
+      } catch (err) {
+        console.log(err)
+      }
     }
 
-
-    }
-    }
-   
+  }
+}
 </script>
 
 <style>

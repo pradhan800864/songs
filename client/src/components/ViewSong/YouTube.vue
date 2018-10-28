@@ -11,12 +11,12 @@
 import VueYouTubeEmbed from 'vue-youtube-embed'
 
 export default {
-    props: [
-        'youtubeId'
-    ],
-    components: {
-        VueYouTubeEmbed
-    } 
+  props: [
+    'youtubeId'
+  ],
+  components: {
+    VueYouTubeEmbed
+  }
 }
 </script>
 <style scoped>

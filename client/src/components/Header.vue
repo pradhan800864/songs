@@ -19,7 +19,7 @@
 <script>
 export default {
   methods: {
-    
+
     logout () {
       this.$store.dispatch('setToken', null)
       this.$store.dispatch('setUser', null)

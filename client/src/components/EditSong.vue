@@ -46,16 +46,15 @@ export default {
   methods: {
     async save () {
       try {
-      const songId = this.$store.state.route.params.songId
+        const songId = this.$store.state.route.params.songId
 
-       await SongsService.put(this.song)
-       this.$router.push({
-         name: 'song',
-         params: {
-           songId: songId
-         }
-
-       })
+        await SongsService.put(this.song)
+        this.$router.push({
+          name: 'song',
+          params: {
+            songId: songId
+          }
+        })
       }
       catch (err) {
         console.log(err)
@@ -64,12 +63,12 @@ export default {
   },
   async mounted () {
     try {
-         const songId = this.$store.state.route.params.songId
-         this.song = (await SongsService.show(songId)).data
-        
-      } catch (err) {
-        console.log(err)
-      }
+      const songId = this.$store.state.route.params.songId
+      this.song = (await SongsService.show(songId)).data
+    }
+    catch (err) {
+      console.log(err)
+    }
   }
 }
 </script>

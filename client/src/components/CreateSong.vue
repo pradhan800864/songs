@@ -42,14 +42,13 @@ export default {
 
     }
   },
- 
+
   methods: {
     async create () {
-       
       try {
         await SongsService.post(this.song)
         this.$router.push({
-            name: 'songs'
+          name: 'songs'
         })
       } catch (err) {
         console.log(err)

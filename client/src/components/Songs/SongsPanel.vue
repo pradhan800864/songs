@@ -20,7 +20,7 @@
             dark
             class="cyan"
            :to="{
-              name: 'song', 
+              name: 'song',
               params: {
                 songId: song.id
               }

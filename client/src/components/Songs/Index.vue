@@ -1,16 +1,21 @@
 <template>
 <div>
-  <v-layout row>
-    <v-flex md6 offset-xs3>
+  <v-layout>
+    <v-flex md6 class="mr-2">
+      <songs-bookmarks />
+    </v-flex>
+    <v-flex md6>
       <songs-search-panel />
     </v-flex>
-    
+
   </v-layout>
-   <v-layout row class="mt-4">
-    <v-flex md6 offset-xs3>
+   <v-layout class="mt-4">
+    <v-flex md6 class="mr-2">
+      <recently-viewed-songs />
+    </v-flex>
+    <v-flex md6>
       <songs-panel />
     </v-flex>
-    
   </v-layout>
 </div>
 </template>
@@ -18,10 +23,12 @@
 <script>
 import SongsSearchPanel from '@/components/Songs/SongsSearchPanel'
 import SongsPanel from '@/components/Songs/SongsPanel'
+import SongsBookmarks from '@/components/Songs/SongsBookmarks'
+import RecentlyViewedSongs from '@/components/Songs/RecentlyViewedSongs'
 import SongsService from '@/services/SongsService'
 export default {
   components: {
-    SongsPanel, SongsSearchPanel
+    SongsPanel, SongsSearchPanel, SongsBookmarks, SongsService, RecentlyViewedSongs
   },
   data () {
     return {
@@ -29,7 +36,7 @@ export default {
     }
   },
   methods: {
-    
+
   },
   async mounted () {
     this.songs = (await SongsService.index1()).data

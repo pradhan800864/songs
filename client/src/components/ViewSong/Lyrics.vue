@@ -12,13 +12,10 @@
 </template>
 <script>
 
-
 export default {
-    props: [
-        'song'
-    ],
-
-
+  props: [
+    'song'
+  ]
 }
 
 </script>
